@@ -7,8 +7,8 @@
     xmlns:xlink="http://www.w3.org/2001/XMLSchema-instance">
     <xsl:output method="xml" indent="yes" encoding="utf-8"/>
     <xsl:param name="institution">BBM Digital</xsl:param>
-    <xsl:param name="collection">DSpace</xsl:param>
-    <xsl:param name="urlPrefix">http</xsl:param>
+    <xsl:param name="collection">Pública Digital</xsl:param>
+    <xsl:param name="urlPrefix">https://digital.bbm.usp.br/handle</xsl:param>
     <xsl:template match="oai_dc:dc">
         <add>
             <doc>
