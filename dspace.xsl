@@ -134,12 +134,12 @@
                 </xsl:if>
 
                 <!-- PUBLISHDATE -->
-                <xsl:if test="//dc:date">
+                <xsl:if test="//dc:date.issued">
                     <field name="publishDate">
-                        <xsl:value-of select="substring(//dc:date, 1, 4)"/>
+                        <xsl:value-of select="substring(//dc:date.issued, 1, 4)"/>
                     </field>
                     <field name="publishDateSort">
-                        <xsl:value-of select="substring(//dc:date, 1, 4)"/>
+                        <xsl:value-of select="substring(//dc:date.issued, 1, 4)"/>
                     </field>
                 </xsl:if>
 
