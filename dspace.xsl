@@ -8,14 +8,14 @@
     <xsl:output method="xml" indent="yes" encoding="utf-8"/>
     <xsl:param name="institution">BBM Digital</xsl:param>
     <xsl:param name="collection">Pública Digital</xsl:param>
-    <xsl:param name="urlPrefix">https://digital.bbm.usp.br/handle</xsl:param>
+    <xsl:param name="urlPrefix">https://digital.bbm.usp.br/handle/bbm/</xsl:param>
     <xsl:template match="oai_dc:dc">
         <add>
             <doc>
                 <!-- ID -->
                 <!-- Important: This relies on an <identifier> tag being injected by the OAI-PMH harvester. -->
                 <field name="id">
-                    <xsl:value-of select="//identifier"/>
+                    <xsl:value-of select="//dc:identifier"/>
                 </field>
 
                 <!-- RECORDTYPE -->
@@ -144,8 +144,8 @@
                 </xsl:if>
 
                 <!-- URL -->
-               <xsl:for-each select="//dc:identifier">
-                   <xsl:if test="substring(., 1, string-length($urlPrefix)) = $urlPrefix">
+               <xsl:for-each select="//dc:identifier.url">
+                   <xsl:if test="substring(., 1, 38) = $urlPrefix">
                        <field name="url">
                            <xsl:value-of select="." />
                        </field>
