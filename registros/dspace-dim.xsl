@@ -120,6 +120,12 @@
     			</xsl:if>
 
     			<!-- Abstract -->
+    			<!-- The abstract field was assigned for a dynamid field *_txt of test type -->
+    			<xsl:if test="dim:field[@element='description' and @qualifier='abstract']">
+    				<field name="abstract_txtP">
+    					<xsl:value-of select="dim:field[@element='description' and @qualifier='abstract']"/>
+    				</field>
+    			</xsl:if>
 
 
     			<!-- Aternative Title -->
@@ -154,10 +160,7 @@
     				<field name="description">
     					<xsl:value-of select="//dim:field[@element='description'] "/><xsl:text>&#xa;</xsl:text>
     					<xsl:for-each select="//dim:field[@element='description']">
-    						<xsl:if test="@qualifier != 'provenance'">
-    							<xsl:if test="@qualifier='abstract'">
-    								<xsl:text> Abstract: </xsl:text>
-    							</xsl:if>
+    						<xsl:if test="@qualifier != 'provenance' and @qualifier != 'abstract' and @qualifier != 'tableofcontents'">
     							<xsl:value-of select="concat(., '&#xA;')"/>
     						</xsl:if>
     					</xsl:for-each>
