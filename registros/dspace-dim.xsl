@@ -208,14 +208,14 @@
     			</xsl:if>
 
     			<!-- Periodicity -->
-    			<!-- Using dynamic field *_str_mv for -->
-    			<!--<xsl:if test="//dim:field[@element='accrualperiodicity']">
+    			<!-- Using dynamic field *_str_mv for dc.accrualPeriodicity metadata creating periodicity_str_mv field -->
+    			<xsl:if test="//dim:field[@element='accrualPeriodicity']">
     				<field name="periodicity_str_mv">
-    					<xsl:for-each select="//dim:field[@element='accrualperiodicity']">
+    					<xsl:for-each select="//dim:field[@element='accrualPeriodicity']">
     						<xsl:value-of select="concat(., '&#xA;')"/>
     					</xsl:for-each>
     				</field>
-    			</xsl:if> -->
+    			</xsl:if>
 
     			<!-- URL -->
     			<!-- Due some troubles with the maintenance of the internet permalink services with handle, the library has no longer those links, but DSpace still address those links for the object in the metadata. To solve this a new parameter for url was created and used for the right url which the digital object is. Check the existence of metadata but use the variables to construct the right url. -->
