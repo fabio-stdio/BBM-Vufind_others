@@ -120,7 +120,7 @@
     			</xsl:if>
 
     			<!-- Abstract -->
-    			<!-- The abstract field was assigned for a dynamid field *_txt of test type -->
+    			<!-- The abstract field was assigned for a dynamid field *_txtP of Proper text type -->
     			<xsl:if test="dim:field[@element='description' and @qualifier='abstract']">
     				<field name="abstract_txtP">
     					<xsl:value-of select="dim:field[@element='description' and @qualifier='abstract']"/>
@@ -208,9 +208,10 @@
     			</xsl:if>
 
     			<!-- Periodicity -->
-    			<!--<xsl:if test="//dim:field[@element='accrualPeridicity']">
-    				<field name="">
-    					<xsl:for-each select="//dim:field[@element='accrualPeridicity']">
+    			<!-- Using dynamic field *_str_mv for -->
+    			<!--<xsl:if test="//dim:field[@element='accrualperiodicity']">
+    				<field name="periodicity_str_mv">
+    					<xsl:for-each select="//dim:field[@element='accrualperiodicity']">
     						<xsl:value-of select="concat(., '&#xA;')"/>
     					</xsl:for-each>
     				</field>
