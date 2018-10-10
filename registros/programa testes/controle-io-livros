@@ -1,0 +1,18 @@
+<VirtualHost *:80>
+	ServerName controle-io.bbm.usp.br
+	DocumentRoot /projetos/controle-io
+	
+
+	WSGIDaemonProcess testando-wsgithreads=5
+	WSGIScriptAlias /wsgi-bin /projetos/controle-io/wsgi-bin
+	
+
+
+	<Directory /projetos/controle-io>
+		WSGIProcessGroup testando-wsgi
+		WSGIApplicationGroup %{GLOBAL}
+		WSGIScriptReloading On
+		Order allow,deny
+		Allow from all
+	</Directory>
+</VirtualHost>
