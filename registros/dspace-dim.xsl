@@ -1,7 +1,7 @@
 <!-- available fields are defined in solr/biblio/conf/schema.xml -->
-<!-- This document was write for Biblioteca Brasiliana Guita e José Mindlin by Fabio Chagas da Silva (fabio.chagas.silva@usp.br). It take metadata directly from dim to index in solr. Based on the dspace.xsl found in the Vufind wiki page -->
+<!-- This document was write for Guita e José Mindlin Brasiliana Library by Fabio Chagas da Silva (fabio.chagas.silva@usp.br). It take metadata directly from dim to index in solr. Based on the dspace.xsl found in the Vufind wiki page -->
 
-<!-- The choices of fields was made based on which metadata is most interesting for the user of the library and which solr fileds in schema.xml is close to teh metadata of choice. Those choices were made supervised by the lybrarian of Brasiliana Guita e José Mindlin, Rodrigo Garcia (garcia.rodrigo@gmail.com). -->
+<!-- The choices of fields were made based on which metadata is most interesting for the users of the library and which solr fields in schema.xml is close to the metadata of choice. Those choices were made supervised by the lybrarian of Brasiliana Guita e José Mindlin, Rodrigo Garcia (garcia.rodrigo@gmail.com). -->
 
 
 <xsl:stylesheet version="1.0"
@@ -17,7 +17,7 @@
     <xsl:template match="dim:dim">
     	<add>
     		<doc>
-    			<!-- Those fields are exactly like in the dspace.xls found in vufind wiki page: (https://github.com/vufind-org/vufind/blob/master/import/xsl/dspace.xsl), except for the tags -->
+    			<!-- Those fields are exactly like in the dspace.xls found in vufind wiki page: (https://github.com/vufind-org/vufind/blob/master/import/xsl/dspace.xsl), except for some tags -->
 
     			<!-- ID -->
     			<!-- Important: This relies on an <identifier> tag being injected by the OAI-PMH harvester. -->
@@ -149,11 +149,11 @@
 
 
     				<!--ENG-->
-    				<!-- Two if block was used in description, one for check its existence e another, within the for-each loop for not print a dim:field[@element='description' and @qualifier='provenance']. -->
-    				<!-- Although, the field with only attribute @element='description' doesn't print, a not elegant solution was found and implemented in line 152 -->
+    				<!-- Two if block was used in description, one for check its existence and another, within the for-each loop for not print a dim:field[@element='description' and @qualifier='provenance']. -->
+    				<!-- Although, the field with only attribute @element='description' doesn't print, a not elegant solution was found and implemented in line 161 -->
 
-    				<!-- It was included a text tag for new line character after print de value in the field with the attribute @element='description' only.
-    					Within the for-each loop was included (as mentioned earlier) an if block. After print all values with description, except for description and provenance, concatenate with new line character. -->
+    				<!-- It was included a text tag for new line character after print the value in the field with the attribute @element='description' only.
+    					Within the for-each loop was included (as mentioned earlier) an if block. After print all values with description, except for description, provenance, abstract and tableofcontents (both latters with own field) concatenate with new line character. -->
     			
 
     			<xsl:if test="//dim:field[@element='description']">
@@ -208,9 +208,11 @@
     			</xsl:if>
 
     			<!-- Periodicity -->
-    			<!-- Using dynamic field *_str_mv for dc.accrualPeriodicity metadata creating periodicity_str_mv field -->
+    			<!-- Using dynamic field *_txtP for dc.accrualPeriodicity metadata creating periodicity_txtP field -->
+    			<!-- If the periodic had more the one periodicity during its publication, only one would go for dc.accrualPeriodicity and the whole history would go for dc.description.localnotes or dc.description -->
+
     			<xsl:if test="//dim:field[@element='accrualPeriodicity']">
-    				<field name="periodicity_str_mv">
+    				<field name="periodicity_txtP">
     					<xsl:for-each select="//dim:field[@element='accrualPeriodicity']">
     						<xsl:value-of select="concat(., '&#xA;')"/>
     					</xsl:for-each>
