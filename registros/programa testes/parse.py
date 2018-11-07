@@ -19,7 +19,25 @@ import urllib
 import urllib.parse
 import urllib.request 
 import io
+import os
+import glob
+import doctest
+import xml.etree.ElementTree as ET
+from xml.etree.ElementTree import ElementTree
+from xml.etree.ElementTree import Element
 
+# Todos os campos de metadados do Dublin Core que é interessante para a biblioteca digital que será extraido do Marc21.
+
+DC_metadados = ["dc.contributor.author", "dc.title.alternative", "dc.title", "dc.title.alternative", "dc.description.version", "dc.coverage.spatial", "dc.publisher.city",
+				"dc.publisher", "dc.date.issued", "dc.date.created", "dc.format.medium", "dc.accrualPeriodicity", "dc.relation.ispartof", "dc.description",
+				"dc.description.tableofcontents", "dcterms.access.rights", "dc.relation.isreferencedby", "dc.description.abstract", "dcterms.audience", "dcterms.hasFormat", 
+				 "dc.relation.uri", "dc.relation.requires", "dcterms.accrualMethod", "dc.date.copyright", "dc.rights.holder", "dc.language", "dcterms.provenance", 
+				 "dc.description.localnote", "dc.subject.personalname", "dc.subject", "dc.coverage.temporal", "dc.type", "dc.contributor.other", "dc.contributor", 
+				 "dc.relation.haspart", "dc.relation.replaces", "dc.relation.isreferencedby", "dc.identifier.url", "dc.identifier.url", "dc.identifier.barcode", 
+				 "dc.identifier.dedalus", "dc.identifier.isbn", "dc.identifier.issn", "dc.identifier.doi", "dc.language.iso", "dc.language", "dc.subject.lcc", "dc.subject.ddc"][]
+
+
+#Função para coletar os metadados do objeto.
 def parse(num_dedalus):
 
 	try:
@@ -34,10 +52,13 @@ def parse(num_dedalus):
 		respData = resp.read()
 		respDataUTF_8 = respData.decode('utf-8')
 
-		saveFile = open('marc'+num_dedalus+'.xml','w')
+		'''saveFile = open('marc'+num_dedalus+'.xml','w')
 		saveFile.write(str(respDataUTF_8))
 		saveFile.close()
-		
+		'''
+		return respDataUTF_8
+
+
 	except Exception as e:
 		print(str(e))
 
@@ -47,4 +68,28 @@ def parse(num_dedalus):
 ''' A partir daqui o código foi desenvolvido quase que inteiramente por Fábio Chagas da Silva (fabio.chagas.silva@usp.br), com base no programa de mesma função
 escrito em Java pelo o ICMCC - USP São Carlos. Referências serão feitas ao longo do código quando os trechos usados foram feitos por outros. A licensa do uso
 desse código é GNU General License como explicado acima.'''
+
+
+def escreve_xml():
+	raiz = Element('dim:dim')
+	raiz.set('xmlns:dim', '"http://www.dspace.org/xmlns/dspace/dim"')
+
+def converte(respDataUTF_8, num_dedalus, cod_barras):
+	# Ambas as variáveis para carregamento da arvore e da raíz do xml.
+	arvore = 0
+	raiz = 0
+
+	arvore = ET.ElementTree(respDataUTF_8)
+	raiz = arvore.getroot()
+
+	for elem in raiz.iter():
+		if (elem.attrib.get('tag') == '100') or (elem.attrib.get('tag') == '110') or (elem.attrib.get('tag') == '111'):
+			for subelem in elem:
+				DC_metadados["dc.contributor.author"].append(subelem.text)
+
+
+
+
+
+
 
