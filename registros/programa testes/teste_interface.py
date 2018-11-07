@@ -22,6 +22,7 @@ from tkinter import *
 import parse
 
 
+
 campos = 'Código de Barras', 'Número de Registro no Dedalus'
 
 def dados(entries):
