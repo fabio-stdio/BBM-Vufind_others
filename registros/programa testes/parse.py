@@ -70,9 +70,28 @@ escrito em Java pelo o ICMCC - USP São Carlos. Referências serão feitas ao lo
 desse código é GNU General License como explicado acima.'''
 
 
-def escreve_xml():
+def escreve_xml(data):
+# Solução encontrada no stack overflow em 8 de novembro de 2018 em:
+#  https://stackoverflow.com/questions/17084250/python-2-7-and-xml-etree-how-to-create-an-xml-file-with-multiple-namespaces
+	
+
+	# Namespace do documento a ser inserido
+	dim = "http://www.dspace.org/xmlns/dspace/dim"
+	doc = "http://www.lyncode.com/xoai"
+	xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	schloc = "http://www.dspace.org/xmlns/dspace/dim http://www.dspace.org/schema/dim.xsd"
+
+	# Criação do dicionário para inserir os vários namespaces.
+
+	nsi = {"xmlns:dim":dim, "xmlns:doc":doc, "xmlns:xsi":xsi, "xsi:schemaLocation":schloc}
+
+	# Registrando como namespaces, ficará depois de 'dim:dim' no raiz.
+	for atribt, uri in nsi.items():
+		ET.register_namespace(atribt.split(":")[1], uri)
+
 	raiz = Element('dim:dim')
-	raiz.set('xmlns:dim', '"http://www.dspace.org/xmlns/dspace/dim"')
+
+
 
 def converte(respDataUTF_8, num_dedalus, cod_barras):
 	# Ambas as variáveis para carregamento da arvore e da raíz do xml.
