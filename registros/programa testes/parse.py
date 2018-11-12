@@ -89,7 +89,8 @@ def escreve_xml(data):
 	for atribt, uri in nsi.items():
 		ET.register_namespace(atribt.split(":")[1], uri)
 
-	raiz = Element('dim:dim')
+	raiz = ET.Element('dim:dim')
+	field = ET.SubElement(raiz, data, dict())
 
 
 
