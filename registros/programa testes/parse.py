@@ -34,7 +34,7 @@ DC_metadados = [["dc.contributor.author", "dc.title.alternative", "dc.title", "d
 				 "dc.relation.uri", "dc.relation.requires", "dcterms.accrualMethod", "dc.date.copyright", "dc.rights.holder", "dc.language", "dcterms.provenance", 
 				 "dc.description.localnote", "dc.subject.personalname", "dc.subject", "dc.coverage.temporal", "dc.type", "dc.contributor.other", "dc.contributor", 
 				 "dc.relation.haspart", "dc.relation.replaces", "dc.relation.isreferencedby", "dc.identifier.url", "dc.identifier.url", "dc.identifier.barcode", 
-				 "dc.identifier.dedalus", "dc.identifier.isbn", "dc.identifier.issn", "dc.identifier.doi", "dc.language.iso", "dc.language", "dc.subject.lcc", "dc.subject.ddc"][]]
+				 "dc.identifier.dedalus", "dc.identifier.isbn", "dc.identifier.issn", "dc.identifier.doi", "dc.language.iso", "dc.language", "dc.subject.lcc", "dc.subject.ddc"],[]]
 
 
 #Função para coletar os metadados do objeto.
@@ -51,12 +51,13 @@ def parse(num_dedalus):
 		resp = urllib.request.urlopen(req)
 		respData = resp.read()
 		respDataUTF_8 = respData.decode('utf-8')
+		responsexml = ET.fromstring(respDataUTF_8)
 
-		'''saveFile = open('marc'+num_dedalus+'.xml','w')
+		'''saveFile = open('marc'+num_dedalus+'.xml','w') essa linha foi usada pra gerar o arquivo na função escreve.
 		saveFile.write(str(respDataUTF_8))
-		saveFile.close()
-		'''
-		return respDataUTF_8
+		saveFile.close()'''
+		
+		return responsexml
 
 
 	except Exception as e:
@@ -89,20 +90,25 @@ def escreve_xml(data):
 	for atribt, uri in nsi.items():
 		ET.register_namespace(atribt.split(":")[1], uri)
 
-	raiz = ET.Element('dim:dim')
-	field = ET.SubElement(raiz, data, dict())
+	raiz = ET.Element("dim:dim")
+	field = ET.SubElement(raiz, '; '.join(data), dict()) # muito provavelmente essa linha será colocada na função converte.
+
+	'''ver erros em https://stackoverflow.com/questions/5512811/builtins-typeerror-must-be-str-not-bytes/5513856
+
+					https://stackoverflow.com/questions/50482088/python-how-to-parse-xml-response-and-store-a-elements-value-in-a-variable
+
+					https://stackoverflow.com/questions/5618878/how-to-convert-list-to-string
+
+					https://stackoverflow.com/questions/17084250/python-2-7-and-xml-etree-how-to-create-an-xml-file-with-multiple-namespaces
+	'''
 
 
 
-def converte(respDataUTF_8, num_dedalus, cod_barras):
+def converte(response_raiz, num_dedalus, cod_barras):
 	# Ambas as variáveis para carregamento da arvore e da raíz do xml.
-	arvore = 0
-	raiz = 0
 
-	arvore = ET.ElementTree(respDataUTF_8)
-	raiz = arvore.getroot()
 
-	for elem in raiz.iter():
+	for elem in response_raiz.iter():
 		if (elem.attrib.get('tag') == '100') or (elem.attrib.get('tag') == '110') or (elem.attrib.get('tag') == '111'):
 			for subelem in elem:
 				DC_metadados[1].append(subelem.text)
